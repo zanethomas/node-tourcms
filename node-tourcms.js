@@ -435,7 +435,31 @@ TourCMS.prototype.showDeparture = function(a) {
   this.makeRequest(a);
 
 };
+// test
+TourCMS.prototype.listBookings = function (a) {
 
+		// Sensible defaults
+		if (typeof a.params.qs === "undefined")
+			a.params.qs = "";
+
+		if (typeof a.params.channelId === "undefined")
+			a.params.channelId = 0;
+
+		// Set API path
+		if (a.params.channelId == 0)
+			path = '/p/bookings/list.xml?' + a.params.qs;
+		else
+			path = '/c/bookings/list.xml?' + a.params.qs;
+
+		// Call API
+		this.makeRequest({
+			"path": path,
+			"channelId": a.params.channelId,
+			"callback": a.callback,
+			"callbackError": a.callbackError
+		});
+
+	}
 // Update departure
 TourCMS.prototype.updateDeparture = function(a) {
 
@@ -1114,7 +1138,7 @@ TourCMS.prototype.listPayments = function(a) {
       response.payment = [].concat(response.payment);
 
     callback(response);
-    
+
   };
 
   this.makeRequest(a);
@@ -1147,7 +1171,7 @@ TourCMS.prototype.listStaffMembers = function(a) {
       response.users.user = [].concat(response.users.user);
 
     callback(response);
-    
+
   };
 
   this.makeRequest(a);
@@ -1167,7 +1191,7 @@ TourCMS.prototype.showCustomer = function(a) {
 
   // Sanitise response, tours is an array if empty
   a.processor = function(response, callback) {
-  
+
     if(response.error == "OK" && response.customer){
       // Ensure we have an array of custom fields
       if(typeof response.customer.custom_fields !== "undefined")
@@ -1175,7 +1199,7 @@ TourCMS.prototype.showCustomer = function(a) {
       else
         response.customer.custom_fields = {field:[]};
     }
-    
+
     callback(response);
 
   };
@@ -1285,6 +1309,7 @@ TourCMS.prototype.updateCustomer = function(a) {
   this.makeRequest(a);
 
 };
+
 
 
 TourCMS.prototype.generateSignature = function(path, channelId, verb, outboundTime, apiKey) {
