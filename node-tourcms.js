@@ -399,8 +399,11 @@ TourCMS.prototype.listBookings = function (a) {
   }
 
   // Set API path
-  if (a.params.channelId == 0) path = "/p/bookings/list.xml?" + q;
-  else path = "/c/bookings/list.xml?" + q;
+  if (a.channelId == 0) {
+    path = "/p/bookings/list.xml?" + q;
+  } else {
+    path = "/c/bookings/list.xml?" + q;
+  }
 
   // Call API
   this.makeRequest({
